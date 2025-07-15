@@ -552,7 +552,7 @@ If you have any questions, problems or suggestions please feel free to join our 
 
 <br>
 
-[<p align="center"><img src="https://discordapp.com/api/guilds/819729377650278420/embed.png?style=banner2" alt="discord">](https://discord.gg/e9q7Yr2cuQ) 
+[<p align="center"><img src="https://discordapp.com/api/guilds/819729377650278420/embed.png?style=banner2" alt="discord">](https://discord.gg/7YTWvg6YFG) 
 
 
 <br>

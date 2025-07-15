@@ -554,7 +554,7 @@ Si vous avez des questions, un problème ou des suggestions n'hésitez pas à re
 
 <br>
 
-[<p align="center"><img src="https://discordapp.com/api/guilds/819729377650278420/embed.png?style=banner2" alt="discord">](https://discord.gg/e9q7Yr2cuQ) 
+[<p align="center"><img src="https://discordapp.com/api/guilds/819729377650278420/embed.png?style=banner2" alt="discord">](https://discord.gg/7YTWvg6YFG) 
 
 
 <br>
