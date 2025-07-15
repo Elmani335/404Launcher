@@ -1,24 +1,52 @@
 .global {
-    --element-color: #00bd7a;
-    --transition: all 0.5s cubic-bezier(1, 0.46, 0, 1.29);
-    --dark-color: #292929;
+    --element-color: #8B5CF6;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --dark-color: #0f0f0f;
     --light-color: rgb(245, 245, 245);
+    
+    /* Modern Purple Theme Variables */
+    --purple-primary: #8B5CF6;
+    --purple-secondary: #A855F7;
+    --purple-accent: #C084FC;
+    --purple-dark: #6B46C1;
+    --purple-light: #DDD6FE;
+    --purple-glow: rgba(139, 92, 246, 0.4);
+    
+    --border-radius-sm: 8px;
+    --border-radius-md: 12px;
+    --border-radius-lg: 16px;
+    --border-radius-xl: 20px;
+    
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(139, 92, 246, 0.2);
+    --shadow-lg: 0 8px 24px rgba(139, 92, 246, 0.3);
+    --shadow-xl: 0 16px 48px rgba(139, 92, 246, 0.4);
 }
 
 .dark {
-    --color: #F5F5F5;
-    --background: #292929;
-    --background-element: #424242;
-    --background-transparent: #2c2c2ccc;
-    --shadow: rgba(25, 25, 25, 0.7);
+    --color: #FFFFFF;
+    --background: linear-gradient(135deg, #0f0f0f 0%, #1a0d1a 50%, #2d1b3d 100%);
+    --background-element: linear-gradient(135deg, rgba(45, 27, 61, 0.8) 0%, rgba(107, 70, 193, 0.2) 100%);
+    --background-transparent: rgba(45, 27, 61, 0.9);
+    --background-glass: rgba(255, 255, 255, 0.05);
+    --background-card: rgba(45, 27, 61, 0.6);
+    --shadow: rgba(139, 92, 246, 0.3);
+    --stroke: rgba(139, 92, 246, 0.2);
+    --hover: rgba(139, 92, 246, 0.1);
+    --active: rgba(139, 92, 246, 0.15);
     --svg-color: brightness(0) saturate(100%) invert(100%) sepia(55%) saturate(23%) hue-rotate(236deg) brightness(108%) contrast(92%);
 }
 
 .light {
     --color: #151515;
-    --background: rgb(245, 245, 245);
-    --background-element: #c2c2c2;
-    --background-transparent: rgba(204, 204, 204, 0.8);
-    --shadow: rgba(208, 208, 208, 0.7);
+    --background: linear-gradient(135deg, #faf9ff 0%, #f3f1ff 50%, #ede8ff 100%);
+    --background-element: linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(168, 85, 247, 0.05) 100%);
+    --background-transparent: rgba(139, 92, 246, 0.1);
+    --background-glass: rgba(139, 92, 246, 0.05);
+    --background-card: rgba(255, 255, 255, 0.8);
+    --shadow: rgba(139, 92, 246, 0.2);
+    --stroke: rgba(139, 92, 246, 0.2);
+    --hover: rgba(139, 92, 246, 0.05);
+    --active: rgba(139, 92, 246, 0.1);
     --svg-color: brightness(0) saturate(100%) invert(0%) sepia(5%) saturate(1719%) hue-rotate(357deg) brightness(94%) contrast(84%);
 }

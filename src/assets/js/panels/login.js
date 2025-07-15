@@ -7,6 +7,18 @@ const { ipcRenderer } = require('electron');
 
 import { popup, database, changePanel, accountSelect, addAccount, config, setStatus } from '../utils.js';
 
+// Add debugging for minecraft-java-core errors
+const originalConsoleError = console.error;
+console.error = function(...args) {
+    if (args[0] && args[0].toString().includes('JSON')) {
+        originalConsoleError('=== MINECRAFT-JAVA-CORE ERROR ===');
+        originalConsoleError('Arguments:', args);
+        originalConsoleError('Stack trace:', new Error().stack);
+        originalConsoleError('=== END ERROR ===');
+    }
+    return originalConsoleError(...args);
+};
+
 class Login {
     static id = "login";
     async init(config) {
@@ -88,7 +100,25 @@ class Login {
                 return;
             }
 
-            let MojangConnect = await Mojang.login(emailOffline.value);
+            console.log('Attempting Mojang login for:', emailOffline.value);
+            let MojangConnect;
+            try {
+                MojangConnect = await Mojang.login(emailOffline.value);
+                console.log('Mojang login result:', MojangConnect);
+            } catch (error) {
+                console.error('Mojang login error:', error);
+                console.error('Error details:', {
+                    message: error.message,
+                    stack: error.stack,
+                    name: error.name
+                });
+                popupLogin.openPopup({
+                    title: 'Erreur',
+                    content: 'Erreur lors de la connexion Mojang: ' + error.message,
+                    options: true
+                });
+                return;
+            }
 
             if (MojangConnect.error) {
                 popupLogin.openPopup({
@@ -135,7 +165,25 @@ class Login {
                 return;
             }
 
-            let AZauthConnect = await AZauthClient.login(AZauthEmail.value, AZauthPassword.value);
+            console.log('Attempting AZauth login for:', AZauthEmail.value);
+            let AZauthConnect;
+            try {
+                AZauthConnect = await AZauthClient.login(AZauthEmail.value, AZauthPassword.value);
+                console.log('AZauth login result:', AZauthConnect);
+            } catch (error) {
+                console.error('AZauth login error:', error);
+                console.error('Error details:', {
+                    message: error.message,
+                    stack: error.stack,
+                    name: error.name
+                });
+                PopupLogin.openPopup({
+                    title: 'Erreur',
+                    content: 'Erreur lors de la connexion AZauth: ' + error.message,
+                    options: true
+                });
+                return;
+            }
 
             if (AZauthConnect.error) {
                 PopupLogin.openPopup({
@@ -198,14 +246,26 @@ class Login {
         let instancesList = await config.getInstanceList()
         configClient.account_selected = account.ID;
 
+        // Handle case where no instances are available
+        if (!instancesList || instancesList.length === 0) {
+            console.error('No instances available in saveData')
+            await this.db.updateData('configClient', configClient);
+            await addAccount(account);
+            await accountSelect(account);
+            changePanel('home');
+            return
+        }
+
         for (let instance of instancesList) {
             if (instance.whitelistActive) {
                 let whitelist = instance.whitelist.find(whitelist => whitelist == account.name)
                 if (whitelist !== account.name) {
                     if (instance.name == instanceSelect) {
                         let newInstanceSelect = instancesList.find(i => i.whitelistActive == false)
-                        configClient.instance_selct = newInstanceSelect.name
-                        await setStatus(newInstanceSelect.status)
+                        if (newInstanceSelect) {
+                            configClient.instance_selct = newInstanceSelect.name
+                            await setStatus(newInstanceSelect.status)
+                        }
                     }
                 }
             }

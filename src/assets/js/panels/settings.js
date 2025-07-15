@@ -107,14 +107,22 @@ class Settings {
         let instanceSelect = configClient.instance_selct
         let instancesList = await config.getInstanceList()
 
+        // Handle case where no instances are available
+        if (!instancesList || instancesList.length === 0) {
+            console.error('No instances available in setInstance')
+            return configClient
+        }
+
         for (let instance of instancesList) {
             if (instance.whitelistActive) {
                 let whitelist = instance.whitelist.find(whitelist => whitelist == auth.name)
                 if (whitelist !== auth.name) {
                     if (instance.name == instanceSelect) {
                         let newInstanceSelect = instancesList.find(i => i.whitelistActive == false)
-                        configClient.instance_selct = newInstanceSelect.name
-                        await setStatus(newInstanceSelect.status)
+                        if (newInstanceSelect) {
+                            configClient.instance_selct = newInstanceSelect.name
+                            await setStatus(newInstanceSelect.status)
+                        }
                     }
                 }
             }

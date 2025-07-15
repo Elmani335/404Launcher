@@ -23,9 +23,19 @@ export class skin2D {
 
 async function getData(data) {
     if (data.startsWith('http')) {
-        let response = await nodeFetch(data);
-        let buffer = await response.buffer();
-        data = `data:image/png;base64,${await buffer.toString('base64')}`;
+        try {
+            let response = await nodeFetch(data);
+            if (!response.ok) {
+                console.error(`Failed to fetch skin data: ${response.status} ${response.statusText}`);
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            let buffer = await response.buffer();
+            data = `data:image/png;base64,${await buffer.toString('base64')}`;
+        } catch (error) {
+            console.error('Error fetching skin data:', error);
+            // Return a placeholder or default skin data
+            data = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='; // 1x1 transparent PNG
+        }
     }
     let img = new Image();
     img.src = data;

@@ -1,61 +1,140 @@
-<div class="container">
-    <div class="status-server">
-        <img class="server-status-icon" src="assets/images/icon.png">
-        <div class="server-status-infos">
-            <div class="server-status-name">Minecraft</div>
-            <div class="server-status-text">Online - 0 ms</div>
+<div class="launcher-container">
+    <!-- Header with User Info and Quick Actions -->
+    <div class="launcher-header">
+        <div class="user-profile">
+            <div class="player-head user-avatar"></div>
+            <div class="user-info">
+                <div class="user-name">Player</div>
+                <div class="user-status">Ready to Play</div>
+            </div>
         </div>
-        <div class="status-player-count">
-            <div class="player-count">0</div>
+        
+        <div class="server-status-info">
+            <div class="server-status-name">Server</div>
+            <div class="server-status-text">Checking...</div>
+            <div class="status-player-count">
+                <span class="player-count">0</span> players
+            </div>
+        </div>
+        
+        <div class="quick-actions">
+            <button class="btn-secondary settings-btn" data-panel="settings">
+                <span class="icon-settings"></span>
+                Settings
+            </button>
         </div>
     </div>
 
-    <div class="home-bottom">
-        <div class="new-tab">
-            <div class="titre-tab-new">Actualités</div>
-            <div class="news-list content-scroll"></div>
+    <!-- Main Play Section -->
+    <div class="play-section">
+        <div class="server-card">
+            <div class="server-header">
+                <img class="server-icon" src="assets/images/icon.png" alt="Server">
+                <div class="server-info">
+                    <h2 class="server-name">404 Not Found</h2>
+                    <div class="server-status">
+                        <span class="status-indicator online"></span>
+                        <span class="status-text">Online • 0ms</span>
+                        <span class="player-count">0 players</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="instance-selector">
+                <div class="instance-dropdown">
+                    <button class="instance-btn">
+                        <span class="instance-name">404notFound</span>
+                        <span class="icon-chevron-down"></span>
+                    </button>
+                    <div class="instance-popup">
+                        <div class="instances-List"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="social-tab">
-            <div class="social-list content-scroll">
-                <div data-url="https://discord.gg/7YTWvg6YFG" class="social-block">
-                    <div class="icon-discord icon-social"></div>
-                </div>
 
-                <div data-url="https://github.com/elmani335" class="social-block">
-                    <div class="icon-github icon-social"></div>
+        <!-- Primary Play Button -->
+        <div class="play-area">
+            <button class="play-button">
+                <span class="play-icon">▶</span>
+                <span class="play-text">Launch Game</span>
+            </button>
+            
+            <div class="launch-progress">
+                <div class="progress-info">
+                    <span class="progress-text">Ready to launch</span>
+                    <span class="progress-percentage"></span>
                 </div>
-
-                <div data-url="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="social-block">
-                    <div class="icon-youtube icon-social"></div>
+                <div class="progress-bar-container">
+                    <progress value="0" max="100" class="progress-bar"></progress>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="sidebar">
-        <div class="player-options">
-            <div class="player-head"></div>
+    <!-- Content Grid -->
+    <div class="content-grid">
+        <!-- News Feed -->
+        <div class="news-section">
+            <div class="section-header">
+                <h3>Latest News</h3>
+                <span class="news-badge">New</span>
+            </div>
+            <div class="news-container content-scroll"></div>
         </div>
 
-        <div class="play-elements">
-            <div class="play-instance">
-                <button class="play-btn">Jouer</button>
-                <div class="instance-select icon-arrow"></div>
+        <!-- Quick Links -->
+        <div class="quick-links">
+            <div class="section-header">
+                <h3>Community</h3>
             </div>
-            <div class="info-starting-game">
-                <div class="info-starting-game-text">Connexion...</div>
-                <progress value="0" max="0" class="progress-bar"></progress>
+            <div class="links-grid">
+                <a href="#" data-url="https://discord.gg/7YTWvg6YFG" class="link-card discord">
+                    <div class="link-icon">
+                        <span class="icon-discord"></span>
+                    </div>
+                    <div class="link-info">
+                        <span class="link-title">Discord</span>
+                        <span class="link-desc">Join our community</span>
+                    </div>
+                </a>
+                
+                <a href="#" data-url="https://github.com/elmani335" class="link-card github">
+                    <div class="link-icon">
+                        <span class="icon-github"></span>
+                    </div>
+                    <div class="link-info">
+                        <span class="link-title">GitHub</span>
+                        <span class="link-desc">Source code</span>
+                    </div>
+                </a>
+                
+                <a href="#" data-url="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="link-card youtube">
+                    <div class="link-icon">
+                        <span class="icon-youtube"></span>
+                    </div>
+                    <div class="link-info">
+                        <span class="link-title">YouTube</span>
+                        <span class="link-desc">Tutorials & Updates</span>
+                    </div>
+                </a>
             </div>
         </div>
-
-        <div class="settings-btn icon-settings"></div>
     </div>
 
-    <div class="instance-popup">
-        <div class="instances-tab">
-            <div class="close-popup icon-close"></div>
-            <p>Choisissez votre instance...</p>
-            <div class="instances-List"></div>
+    <!-- Hidden elements for compatibility -->
+    <div style="display: none;">
+        <div class="cancel-home"></div>
+        <div class="info-starting-game">
+            <div class="info-starting-game-text">Connexion...</div>
+        </div>
+    </div>
+
+    <!-- Hidden elements for compatibility -->
+    <div style="display: none;">
+        <div class="cancel-home"></div>
+        <div class="info-starting-game">
+            <div class="info-starting-game-text">Connexion...</div>
         </div>
     </div>
 </div>

@@ -1,5 +1,9 @@
 
 const { app, ipcMain, nativeTheme } = require('electron');
+
+// Apply minecraft-java-core patch BEFORE requiring the library
+require('./assets/js/minecraft-patch.js');
+
 const { Microsoft } = require('minecraft-java-core');
 const { autoUpdater } = require('electron-updater')
 

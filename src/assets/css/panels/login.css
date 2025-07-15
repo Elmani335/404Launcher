@@ -3,15 +3,27 @@
     align-items: center;
     justify-content: center;
     height: 100%;
+    padding: 2rem;
 }
 
 .login-tabs {
     position: absolute;
-    padding: 15px;
-    background: var(--background);
-    border-radius: 15px;
+    padding: 2.5rem;
+    background: var(--background-card);
+    backdrop-filter: blur(30px);
+    border: 1px solid var(--stroke);
+    border-radius: var(--border-radius-xl);
     text-align: center;
-    min-width: 40%;
+    min-width: 45%;
+    max-width: 500px;
+    box-shadow: var(--shadow-xl);
+    transition: var(--transition);
+}
+
+.login-tabs:hover {
+    background: var(--hover);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
 }
 
 .login-home,
@@ -22,29 +34,66 @@
 }
 
 .login-text {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color);
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, var(--element-color) 0%, var(--purple-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .connect,
 .cancel {
-    background: none;
-    color: var(--color);
-    border: solid 4px var(--element-color);
-    border-radius: 10px;
-    padding: 0.3rem 4rem;
-    font-size: inherit;
-    font-weight: bold;
-    margin: 15px 10px;
+    background: linear-gradient(135deg, var(--element-color) 0%, var(--purple-secondary) 100%);
+    color: #FFFFFF;
+    border: none;
+    border-radius: var(--border-radius-lg);
+    padding: 0.8rem 3rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 1rem 0.5rem;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow-md);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.connect:hover,
+.cancel:hover {
+    background: linear-gradient(135deg, var(--purple-secondary) 0%, var(--purple-accent) 100%);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.connect:active,
+.cancel:active {
+    transform: translateY(0px);
+    box-shadow: var(--shadow-md);
 }
 
 .input-login .email,
 .input-login .password,
 .A2F {
     color: var(--color);
-    background: none;
-    border: solid 2px var(--element-color);
-    border-radius: 30px;
-    width: 50%;
-    padding: 0.4rem 1rem;
-    margin-top: 10px;
+    background: var(--background-glass);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--stroke);
+    border-radius: var(--border-radius-lg);
+    width: 70%;
+    padding: 1rem 1.5rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.input-login .email:focus,
+.input-login .password:focus,
+.A2F:focus {
+    border-color: var(--element-color);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    outline: none;
 }

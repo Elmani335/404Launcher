@@ -9,8 +9,10 @@ body {
     padding: 0;
     user-select: none;
     color: var(--color);
-    font-family: 'Poppins';
-    font-weight: bolder;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-weight: 400;
+    background: var(--background);
+    overflow: hidden;
 }
 
 img {
@@ -20,6 +22,7 @@ img {
 
 * {
     outline: none;
+    box-sizing: border-box;
 }
 
 input::-webkit-outer-spin-button,
@@ -33,7 +36,22 @@ input::-webkit-inner-spin-button {
 }
 
 .content-scroll::-webkit-scrollbar {
-    width: 0;
+    width: 8px;
+}
+
+.content-scroll::-webkit-scrollbar-track {
+    background: var(--background-transparent);
+    border-radius: var(--border-radius-sm);
+}
+
+.content-scroll::-webkit-scrollbar-thumb {
+    background: var(--element-color);
+    border-radius: var(--border-radius-sm);
+    transition: var(--transition);
+}
+
+.content-scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--purple-secondary);
 }
 
 .dragbar {
@@ -41,9 +59,12 @@ input::-webkit-inner-spin-button {
     top: 0px;
     left: 0px;
     width: 100%;
-    height: 26px;
+    height: 32px;
     -webkit-app-region: drag;
     z-index: 11;
+    background: var(--background-glass);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--stroke);
 }
 
 .darwin .frame {
@@ -56,13 +77,18 @@ input::-webkit-inner-spin-button {
 }
 
 .other .frame {
-    background: transparent;
+    background: var(--background-glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--stroke);
+    border-radius: var(--border-radius-md);
     position: fixed;
-    top: 0px;
-    right: 0px;
+    top: 8px;
+    right: 8px;
     z-index: 11;
     -webkit-app-region: no-drag;
     display: none;
+    padding: 0.5rem;
+    box-shadow: var(--shadow-md);
 }
 
 .frame.hide {
@@ -72,9 +98,14 @@ input::-webkit-inner-spin-button {
 .darwin .button-frame {
     position: relative;
     display: table-cell;
-    width: 20px;
-    height: 26px;
-    transition: color .2s, background-color .2s;
+    width: 24px;
+    height: 32px;
+    transition: var(--transition);
+    border-radius: var(--border-radius-sm);
+}
+
+.darwin .button-frame:hover {
+    background: var(--hover);
 }
 
 .other .button-frame {
@@ -192,4 +223,177 @@ input::-webkit-inner-spin-button {
     opacity: 1;
     z-index: 1;
     pointer-events: all;
+}
+
+/* Modern Utility Classes */
+.modern-card {
+    background: var(--background-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--stroke);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition);
+}
+
+.modern-card:hover {
+    background: var(--hover);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.modern-button {
+    background: linear-gradient(135deg, var(--element-color) 0%, var(--purple-secondary) 100%);
+    color: #FFFFFF;
+    border: none;
+    border-radius: var(--border-radius-lg);
+    padding: 0.8rem 2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow-md);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.modern-button:hover {
+    background: linear-gradient(135deg, var(--purple-secondary) 0%, var(--purple-accent) 100%);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.modern-button:active {
+    transform: translateY(0px);
+    box-shadow: var(--shadow-md);
+}
+
+.modern-input {
+    background: var(--background-glass);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--stroke);
+    border-radius: var(--border-radius-lg);
+    padding: 1rem 1.5rem;
+    color: var(--color);
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.modern-input:focus {
+    border-color: var(--element-color);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+    outline: none;
+}
+
+.modern-text-gradient {
+    background: linear-gradient(135deg, var(--element-color) 0%, var(--purple-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Enhanced Focus States */
+button:focus,
+input:focus,
+select:focus {
+    outline: 2px solid var(--element-color);
+    outline-offset: 2px;
+}
+
+/* Modern Animated Background Effects */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(192, 132, 252, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+    animation: backgroundPulse 8s ease-in-out infinite;
+}
+
+@keyframes backgroundPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+}
+
+/* Modern Glow Effects */
+.glow-effect {
+    position: relative;
+}
+
+.glow-effect::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--element-color), var(--purple-secondary), var(--purple-accent));
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity var(--transition);
+}
+
+.glow-effect:hover::before {
+    opacity: 0.7;
+    animation: glowPulse 2s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Floating Animation */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.float-animation {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Modern Glass Morphism */
+.glass-morphism {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Enhanced Transitions */
+* {
+    transition: var(--transition);
+}
+
+/* Modern Scrollbar for all elements */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--element-color) var(--background-transparent);
+}
+
+*::-webkit-scrollbar {
+    width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--background-transparent);
+    border-radius: var(--border-radius-sm);
+}
+
+*::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--element-color) 0%, var(--purple-secondary) 100%);
+    border-radius: var(--border-radius-sm);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, var(--purple-secondary) 0%, var(--purple-accent) 100%);
 }

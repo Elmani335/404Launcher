@@ -91,25 +91,54 @@ class Splash {
     }
 
     async dowloadUpdate() {
-        const repoURL = pkg.repository.url.replace("git+", "").replace(".git", "").replace("https://github.com/", "").split("/");
-        const githubAPI = await nodeFetch('https://api.github.com').then(res => res.json()).catch(err => err);
+        try {
+            const repoURL = pkg.repository.url.replace("git+", "").replace(".git", "").replace("https://github.com/", "").split("/");
+            
+            const githubAPI = await nodeFetch('https://api.github.com').then(res => {
+                if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
+                return res.json();
+            }).catch(err => {
+                console.error('GitHub API fetch error:', err);
+                return null;
+            });
+            
+            if (!githubAPI) return;
 
-        const githubAPIRepoURL = githubAPI.repository_url.replace("{owner}", repoURL[0]).replace("{repo}", repoURL[1]);
-        const githubAPIRepo = await nodeFetch(githubAPIRepoURL).then(res => res.json()).catch(err => err);
+            const githubAPIRepoURL = githubAPI.repository_url.replace("{owner}", repoURL[0]).replace("{repo}", repoURL[1]);
+            const githubAPIRepo = await nodeFetch(githubAPIRepoURL).then(res => {
+                if (!res.ok) throw new Error(`GitHub repo API error: ${res.status}`);
+                return res.json();
+            }).catch(err => {
+                console.error('GitHub repo API fetch error:', err);
+                return null;
+            });
+            
+            if (!githubAPIRepo) return;
 
-        const releases_url = await nodeFetch(githubAPIRepo.releases_url.replace("{/id}", '')).then(res => res.json()).catch(err => err);
-        const latestRelease = releases_url[0].assets;
-        let latest;
+            const releases_url = await nodeFetch(githubAPIRepo.releases_url.replace("{/id}", '')).then(res => {
+                if (!res.ok) throw new Error(`GitHub releases API error: ${res.status}`);
+                return res.json();
+            }).catch(err => {
+                console.error('GitHub releases API fetch error:', err);
+                return null;
+            });
+            
+            if (!releases_url || !releases_url.length) return;
+            
+            const latestRelease = releases_url[0].assets;
+            let latest;
 
-        if (os.platform() == 'darwin') latest = this.getLatestReleaseForOS('mac', '.dmg', latestRelease);
-        else if (os == 'linux') latest = this.getLatestReleaseForOS('linux', '.appimage', latestRelease);
+            if (os.platform() == 'darwin') latest = this.getLatestReleaseForOS('mac', '.dmg', latestRelease);
+            else if (os == 'linux') latest = this.getLatestReleaseForOS('linux', '.appimage', latestRelease);
 
-
-        this.setStatus(`Mise à jour disponible !<br><div class="download-update">Télécharger</div>`);
-        document.querySelector(".download-update").addEventListener("click", () => {
-            shell.openExternal(latest.browser_download_url);
-            return this.shutdown("Téléchargement en cours...");
-        });
+            this.setStatus(`Mise à jour disponible !<br><div class="download-update">Télécharger</div>`);
+            document.querySelector(".download-update").addEventListener("click", () => {
+                shell.openExternal(latest.browser_download_url);
+                return this.shutdown("Téléchargement en cours...");
+            });
+        } catch (updateError) {
+            console.error('Update check failed:', updateError);
+        }
     }
 
 

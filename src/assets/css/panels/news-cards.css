@@ -1,0 +1,108 @@
+/* ===== NEWS CARDS STYLING ===== */
+
+.news-card {
+    background: var(--background-glass);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--stroke);
+    border-radius: var(--border-radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.news-card:hover {
+    background: var(--hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.news-card.placeholder {
+    border: 2px dashed var(--stroke);
+    background: var(--background-glass);
+}
+
+.news-card-header {
+    margin-bottom: 1rem;
+}
+
+.news-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.news-date {
+    font-size: 0.8rem;
+    color: var(--element-color);
+    font-weight: 600;
+    padding: 0.2rem 0.8rem;
+    background: var(--background-element);
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--stroke);
+}
+
+.news-author {
+    font-size: 0.8rem;
+    color: var(--text-color-secondary);
+    font-style: italic;
+}
+
+.news-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.news-content {
+    color: var(--text-color-secondary);
+    line-height: 1.6;
+}
+
+.news-content p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* ===== INSTANCE DROPDOWN STYLING ===== */
+
+.instance-popup {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--background-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--stroke);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-lg);
+    z-index: 100;
+    display: none;
+    margin-top: 0.5rem;
+    overflow: hidden;
+}
+
+.instance-item {
+    padding: 1rem 1.5rem;
+    color: var(--color);
+    cursor: pointer;
+    transition: var(--transition);
+    border-bottom: 1px solid var(--stroke);
+}
+
+.instance-item:last-child {
+    border-bottom: none;
+}
+
+.instance-item:hover {
+    background: var(--hover);
+    color: var(--element-color);
+}
+
+.instance-item.active {
+    background: var(--element-color);
+    color: #FFFFFF;
+}
