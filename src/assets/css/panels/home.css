@@ -8,10 +8,12 @@
     height: 100vh;
     padding: 5rem 1rem 1rem 1rem;
     gap: 1rem;
-    background: var(--background);
+    background: transparent;
     overflow-y: auto;
     margin-top: 0;
     padding-top: 2rem;
+    position: relative;
+    z-index: 1;
 }
 
 /* Custom scrollbar for main container */
@@ -39,13 +41,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
+    padding: 20px 30px;
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: var(--border-radius-lg);
-    margin-bottom: 1rem;
-    margin-top: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .launcher-header:hover {
@@ -168,19 +167,21 @@
 }
 
 .server-card {
-    background: var(--background-card);
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--stroke);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: var(--border-radius-xl);
     padding: 1.5rem 2rem;
-    box-shadow: var(--shadow-lg);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     transition: var(--transition);
+    max-width: 30%;
 }
 
 .server-card:hover {
-    background: var(--hover);
+    background: rgba(255, 255, 255, 0.12);
     transform: translateY(-2px);
-    box-shadow: var(--shadow-xl);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .server-header {
@@ -296,6 +297,12 @@
     gap: 1rem;
 }
 
+.button-group {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
 .play-button {
     display: flex;
     align-items: center;
@@ -318,7 +325,29 @@
     overflow: hidden;
 }
 
-.play-button::before {
+.refresh-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    width: 180px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--accent-color) 0%, var(--green-secondary) 100%);
+    border: none;
+    border-radius: var(--border-radius-xl);
+    color: #FFFFFF;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow-lg);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.refresh-button::before {
     content: '';
     position: absolute;
     top: 0;
@@ -329,26 +358,33 @@
     transition: left 0.6s;
 }
 
-.play-button:hover::before {
+.refresh-button:hover::before {
     left: 100%;
 }
 
-.play-button:hover {
-    background: linear-gradient(135deg, var(--purple-secondary) 0%, var(--purple-accent) 100%);
+.refresh-button:hover {
+    background: linear-gradient(135deg, var(--green-secondary) 0%, var(--green-accent) 100%);
     transform: translateY(-3px) scale(1.02);
     box-shadow: var(--shadow-xl);
 }
 
-.play-button:active {
+.refresh-button:active {
     transform: translateY(-1px) scale(1.01);
 }
 
-.play-icon {
-    font-size: 1.5rem;
+.refresh-button:disabled {
+    background: linear-gradient(135deg, var(--element-color-secondary) 0%, var(--element-color) 100%);
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: var(--shadow-sm);
+}
+
+.refresh-icon {
+    font-size: 1.3rem;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.play-text {
+.refresh-text {
     font-family: 'Poppins', sans-serif;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
@@ -484,6 +520,74 @@
     background: var(--purple-secondary);
 }
 
+/* News refresh indicator */
+.refresh-indicator {
+    display: inline-block;
+    animation: spin 1s linear infinite;
+    font-size: 0.8em;
+    margin-left: 0.5rem;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Clickable news cards */
+.news-card.clickable {
+    transition: all 0.3s ease;
+}
+
+.news-card.clickable:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.external-link-icon {
+    font-size: 0.8em;
+    opacity: 0.7;
+    margin-left: 0.5rem;
+}
+
+.news-link-hint {
+    font-size: 0.8rem;
+    color: var(--element-color);
+    opacity: 0.8;
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+/* News loading and error states */
+.news-card.loading {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: pulse 2s infinite;
+}
+
+.news-card.error {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.news-card.error .news-title {
+    color: #EF4444;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
 /* ===== QUICK LINKS ===== */
 .quick-links {
     background: var(--background-card);
@@ -505,21 +609,22 @@
     align-items: center;
     gap: 1rem;
     padding: 1rem;
-    background: var(--background-glass);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--stroke);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: var(--border-radius-lg);
     text-decoration: none;
     color: var(--color);
     transition: var(--transition);
     cursor: pointer;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
 .link-card:hover {
-    background: var(--hover);
+    background: rgba(255, 255, 255, 0.12);
     transform: translateX(4px);
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
 .link-icon {
@@ -653,17 +758,6 @@
     color: #ff6b6b;
 }
 
-/* Update launcher header layout */
-.launcher-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 30px;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
 /* Add space for window title bar */
 body {
     margin: 0;
@@ -675,57 +769,64 @@ body {
     margin-top: 50px; /* More space for window controls */
 }
 
-/* Responsive design improvements */
-@media (max-height: 800px) {
-    .launcher-container {
-        padding: 0.5rem;
-        gap: 0.5rem;
-    }
-    
-    .launcher-header {
-        padding: 10px 15px;
-    }
-    
-    .server-card {
-        padding: 1rem 1.5rem;
-    }
-    
-    .play-button {
-        height: 60px;
-        width: 250px;
-    }
-    
-    .content-grid {
-        gap: 1rem;
-        margin-bottom: 1rem;
-    }
-    
-    .news-section {
-        max-height: 300px;
-        padding: 1rem;
-    }
-    
-    .news-container {
-        max-height: 200px;
-    }
+/* ===== DYNAMIC BACKGROUND SYSTEM ===== */
+.launcher-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    overflow: hidden;
 }
 
-.link-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(3px);
+    transform: scale(1.05); /* Slightly scale to hide blur edges */
+    transition: opacity 1s ease-in-out, filter 0.3s ease;
 }
 
-.link-title {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--color);
-    margin: 0;
+.background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.4) 0%,
+        rgba(0, 0, 0, 0.2) 50%,
+        rgba(0, 0, 0, 0.4) 100%
+    );
+    backdrop-filter: blur(1px);
+    z-index: -1;
 }
 
-.link-desc {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    font-weight: 400;
-    margin: 0;
+/* Theme-specific overlay adjustments */
+[data-theme="dark"] .background-overlay {
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.6) 0%,
+        rgba(0, 0, 0, 0.3) 50%,
+        rgba(0, 0, 0, 0.6) 100%
+    );
 }
+
+[data-theme="light"] .background-overlay {
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.4) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.4) 100%
+    );
+}
+
+/* Enhanced launcher container to work with background */

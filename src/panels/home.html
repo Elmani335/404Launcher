@@ -1,3 +1,8 @@
+<div class="launcher-background">
+    <div class="background-image"></div>
+    <div class="background-overlay"></div>
+</div>
+
 <div class="launcher-container">
     <!-- Header with User Info and Quick Actions -->
     <div class="launcher-header">
@@ -43,7 +48,7 @@
             <div class="instance-selector">
                 <div class="instance-dropdown">
                     <button class="instance-btn">
-                        <span class="instance-name">404notFound</span>
+                        <span class="instance-name">404NotFound</span>
                         <span class="icon-chevron-down"></span>
                     </button>
                     <div class="instance-popup">
@@ -55,10 +60,16 @@
 
         <!-- Primary Play Button -->
         <div class="play-area">
-            <button class="play-button">
-                <span class="play-icon">▶</span>
-                <span class="play-text">Launch Game</span>
-            </button>
+            <div class="button-group">
+                <button class="play-button">
+                    <span class="play-icon">▶</span>
+                    <span class="play-text">Launch Game</span>
+                </button>
+                <button class="refresh-button" title="Download/Update Files">
+                    <span class="refresh-icon">🔄</span>
+                    <span class="refresh-text">Reload</span>
+                </button>
+            </div>
             
             <div class="launch-progress">
                 <div class="progress-info">

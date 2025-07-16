@@ -1,5 +1,6 @@
 .global {
     --element-color: #8B5CF6;
+    --element-color-secondary: #6B5B95;
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --dark-color: #0f0f0f;
     --light-color: rgb(245, 245, 245);
@@ -11,6 +12,16 @@
     --purple-dark: #6B46C1;
     --purple-light: #DDD6FE;
     --purple-glow: rgba(139, 92, 246, 0.4);
+    
+    /* Green Theme Variables for Refresh Button */
+    --green-primary: #10B981;
+    --green-secondary: #059669;
+    --green-accent: #34D399;
+    --green-dark: #047857;
+    --green-light: #A7F3D0;
+    --green-glow: rgba(16, 185, 129, 0.4);
+    
+    --accent-color: #10B981;
     
     --border-radius-sm: 8px;
     --border-radius-md: 12px;

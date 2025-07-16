@@ -34,7 +34,7 @@ config.getInstanceList = async function() {
         
         // Return a safe default instance
         return [{
-            name: '404notFound',
+            name: '404NotFound',
             verify: false,
             url: null,
             ignored: ['*'],
@@ -46,7 +46,7 @@ config.getInstanceList = async function() {
                 loadder_version: '1.20.1-47.4.0'
             },
             status: {
-                nameServer: '404notFound',
+                nameServer: '404NotFound',
                 ip: '82.64.34.8',
                 port: 25569
             }

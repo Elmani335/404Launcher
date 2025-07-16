@@ -9,8 +9,8 @@ const originalFetch = window.fetch || global.fetch;
 // Mock responses for different endpoints
 const mockResponses = {
     // Instance files endpoint - return empty array
-    'files?instance=404notFound': [],
-    'files/?instance=404notFound': [],
+    'files?instance=404NotFound': [],
+    'files/?instance=404NotFound': [],
     
     // Other potential problematic endpoints
     'libraries': [],

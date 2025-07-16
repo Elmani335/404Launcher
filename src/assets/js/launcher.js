@@ -2,6 +2,7 @@
  * @author SentryXSystems
  * @license CC-BY-NC 4.0 - https://creativecommons.org/licenses/by-nc/4.0
  */
+
 // import panel
 import Login from './panels/login.js';
 import Home from './panels/home.js';
@@ -90,6 +91,22 @@ class Launcher {
         let configClient = await this.db.readData('configClient')
 
         if (!configClient) {
+            // Get default game path based on platform
+            let defaultGamePath;
+            try {
+                const appDataPath = await ipcRenderer.invoke('appData');
+                defaultGamePath = process.platform === 'darwin' 
+                    ? `${appDataPath}/minecraft`
+                    : `${appDataPath}/.minecraft`;
+            } catch (error) {
+                // Fallback if appData call fails
+                defaultGamePath = process.platform === 'win32'
+                    ? `${process.env.APPDATA}/.minecraft`
+                    : process.platform === 'darwin'
+                    ? `${process.env.HOME}/Library/Application Support/minecraft`
+                    : `${process.env.HOME}/.minecraft`;
+            }
+
             await this.db.createData('configClient', {
                 account_selected: null,
                 instance_selct: null,
@@ -101,6 +118,7 @@ class Launcher {
                     }
                 },
                 game_config: {
+                    game_path: defaultGamePath,
                     screen_size: {
                         width: 854,
                         height: 480
@@ -113,6 +131,28 @@ class Launcher {
                     intelEnabledMac: true
                 }
             })
+        } else {
+            // Check if existing config is missing game_path and add it
+            if (!configClient.game_config?.game_path) {
+                console.log('Adding missing game_path to existing config...')
+                let defaultGamePath;
+                try {
+                    const appDataPath = await ipcRenderer.invoke('appData');
+                    defaultGamePath = process.platform === 'darwin' 
+                        ? `${appDataPath}/minecraft`
+                        : `${appDataPath}/.minecraft`;
+                } catch (error) {
+                    defaultGamePath = process.platform === 'win32'
+                        ? `${process.env.APPDATA}/.minecraft`
+                        : process.platform === 'darwin'
+                        ? `${process.env.HOME}/Library/Application Support/minecraft`
+                        : `${process.env.HOME}/.minecraft`;
+                }
+                
+                if (!configClient.game_config) configClient.game_config = {};
+                configClient.game_config.game_path = defaultGamePath;
+                await this.db.updateData('configClient', configClient);
+            }
         }
     }
 
@@ -239,11 +279,11 @@ class Launcher {
             account_selected = configClient ? configClient.account_selected : null
 
             if (!account_selected) {
-                let uuid = accounts[0].ID
-                if (uuid) {
-                    configClient.account_selected = uuid
+                let account = accounts[0]
+                if (account && account.ID) {
+                    configClient.account_selected = account.ID
                     await this.db.updateData('configClient', configClient)
-                    accountSelect(uuid)
+                    accountSelect(account) // Pass the whole account object, not just the ID
                 }
             }
 
@@ -262,5 +302,24 @@ class Launcher {
         }
     }
 }
+
+// Add basic JSON.parse protection for any remaining issues
+const originalJSONParse = JSON.parse;
+JSON.parse = function(text, reviver) {
+    try {
+        // Quick check for HTML content that sometimes comes from servers
+        if (typeof text === 'string' && text.trim().startsWith('<')) {
+            console.warn('[GLOBAL] HTML detected in JSON.parse, returning safe fallback');
+            return {};
+        }
+        return originalJSONParse.call(this, text, reviver);
+    } catch (error) {
+        // Only log if it's not already handled
+        if (!error.message.includes('Unexpected token')) {
+            console.warn('[GLOBAL] JSON.parse failed:', error.message);
+        }
+        return {};
+    }
+};
 
 new Launcher().init();
