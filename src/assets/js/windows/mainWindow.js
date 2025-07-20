@@ -22,14 +22,19 @@ function destroyWindow() {
 
 function createWindow() {
     destroyWindow();
+    
+    // Determine correct base path for development vs production
+    let isDevMode = process.env.NODE_ENV === 'dev';
+    let basePath = isDevMode ? 'src' : 'app';
+    
     mainWindow = new BrowserWindow({
-        title: pkg.preductname,
+        title: pkg.productName || pkg.preductname,
         width: 1280,
         height: 720,
         minWidth: 980,
         minHeight: 552,
         resizable: true,
-        icon: `./src/assets/images/icon.${os.platform() === "win32" ? "ico" : "png"}`,
+        icon: `./${basePath}/assets/images/icon.${os.platform() === "win32" ? "ico" : "png"}`,
         frame: false,
         show: false,
         webPreferences: {
@@ -39,10 +44,10 @@ function createWindow() {
     });
     Menu.setApplicationMenu(null);
     mainWindow.setMenuBarVisibility(false);
-    mainWindow.loadFile(path.join(`${app.getAppPath()}/src/launcher.html`));
+    mainWindow.loadFile(path.join(`${app.getAppPath()}/${basePath}/launcher.html`));
     mainWindow.once('ready-to-show', () => {
         if (mainWindow) {
-            if (dev) mainWindow.webContents.openDevTools({ mode: 'detach' })
+            if (process.env.DEV_TOOL === 'open') mainWindow.webContents.openDevTools({ mode: 'detach' })
             mainWindow.show()
         }
     });

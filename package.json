@@ -1,6 +1,6 @@
 {
-    "name": "Launcher Not Found",
-    "preductname": "Launcher Not Found",
+    "name": "launcher-not-found",
+    "productName": "Launcher Not Found",
     "version": "1.0.1",
     "description": "Launcher Not Found",
     "main": "src/app.js",

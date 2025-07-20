@@ -3,15 +3,60 @@
         <meta charset="UTF-8">
         <meta http-equiv="Content-Security-Policy" content="script-src 'self';">
         <link rel="stylesheet" href="assets/css/index.css">
+        <style>
+            /* Fallback styles to ensure visibility */
+            body {
+                background: #0f0f0f;
+                color: #ffffff;
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+            #splash {
+                position: relative;
+                width: 100%;
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+            .splash {
+                width: 140px;
+                height: 140px;
+                margin-bottom: 20px;
+            }
+            .splash-message, .message, .splash-author {
+                color: #ffffff !important;
+                text-align: center;
+                margin: 10px 0;
+                font-size: 16px;
+            }
+            .progress {
+                width: 200px;
+                height: 4px;
+                margin-top: 20px;
+            }
+        </style>
     </head>
     <body>
-        <div id="splash" style="display:none">
-            <img class="splash" src="assets/images/icon.png" />
-            <p class="splash-message"></p>
-            <p class="splash-author"><span class="author"></span></p>
+        <div id="splash" style="display:block">
+            <img class="splash" src="assets/images/icon.png" style="opacity: 1;" />
+            <p class="splash-message" style="opacity: 1;">Launcher Not Found</p>
+            <p class="splash-author"><span class="author">SentryX Systems</span></p>
             <p class="message">Recherche de mise à jour...</p>
             <progress value="0" max="0" class="progress"></progress>
         </div>
+        <script>
+            console.log('[Index] HTML loaded, starting initialization...');
+            // Add global error handler
+            window.addEventListener('error', (e) => {
+                console.error('[Index] JavaScript Error:', e.error);
+            });
+            window.addEventListener('unhandledrejection', (e) => {
+                console.error('[Index] Unhandled Promise Rejection:', e.reason);
+            });
+        </script>
         <script src="assets/js/index.js" type="module"></script>
     </body>
 </html>

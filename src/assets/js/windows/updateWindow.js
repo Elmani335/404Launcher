@@ -22,12 +22,17 @@ function destroyWindow() {
 
 function createWindow() {
     destroyWindow();
+    
+    // Determine correct base path for development vs production
+    let dev = process.env.NODE_ENV === 'dev';
+    let basePath = dev ? 'src' : 'app';
+    
     updateWindow = new BrowserWindow({
         title: "Mise à jour",
         width: 400,
         height: 500,
         resizable: false,
-        icon: `./src/assets/images/icon.${os.platform() === "win32" ? "ico" : "png"}`,
+        icon: `./${basePath}/assets/images/icon.${os.platform() === "win32" ? "ico" : "png"}`,
         frame: false,
         show: false,
         webPreferences: {
@@ -37,10 +42,10 @@ function createWindow() {
     });
     Menu.setApplicationMenu(null);
     updateWindow.setMenuBarVisibility(false);
-    updateWindow.loadFile(path.join(`${app.getAppPath()}/src/index.html`));
+    updateWindow.loadFile(path.join(`${app.getAppPath()}/${basePath}/index.html`));
     updateWindow.once('ready-to-show', () => {
         if (updateWindow) {
-            if (dev) updateWindow.webContents.openDevTools({ mode: 'detach' })
+            if (process.env.DEV_TOOL === 'open') updateWindow.webContents.openDevTools({ mode: 'detach' })
             updateWindow.show();
         }
     });

@@ -24,7 +24,9 @@ if (dev) {
 if (!app.requestSingleInstanceLock()) app.quit();
 else app.whenReady().then(() => {
     if (dev) return MainWindow.createWindow()
-    UpdateWindow.createWindow()
+    // Skip update window for now and go directly to main window
+    MainWindow.createWindow()
+    // UpdateWindow.createWindow()
 });
 
 ipcMain.on('main-window-open', () => MainWindow.createWindow())

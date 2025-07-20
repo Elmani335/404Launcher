@@ -17,14 +17,27 @@ class Splash {
         this.splashAuthor = document.querySelector(".splash-author");
         this.message = document.querySelector(".message");
         this.progress = document.querySelector(".progress");
+        
+        // Show splash immediately for debugging
+        document.querySelector("#splash").style.display = "block";
+        console.log('[Splash] Starting splash screen initialization...');
+        
         document.addEventListener('DOMContentLoaded', async () => {
-            let databaseLauncher = new database();
-            let configClient = await databaseLauncher.readData('configClient');
-            let theme = configClient?.launcher_config?.theme || "auto"
-            let isDarkTheme = await ipcRenderer.invoke('is-dark-theme', theme).then(res => res)
-            document.body.className = isDarkTheme ? 'dark global' : 'light global';
-            if (process.platform == 'win32') ipcRenderer.send('update-window-progress-load')
-            this.startAnimation()
+            console.log('[Splash] DOM Content Loaded');
+            try {
+                let databaseLauncher = new database();
+                let configClient = await databaseLauncher.readData('configClient');
+                let theme = configClient?.launcher_config?.theme || "auto"
+                let isDarkTheme = await ipcRenderer.invoke('is-dark-theme', theme).then(res => res)
+                document.body.className = isDarkTheme ? 'dark global' : 'light global';
+                if (process.platform == 'win32') ipcRenderer.send('update-window-progress-load')
+                this.startAnimation()
+            } catch (error) {
+                console.error('[Splash] Error during initialization:', error);
+                // Fallback to show something
+                document.body.className = 'dark global';
+                this.startAnimation()
+            }
         });
     }
 
@@ -53,6 +66,21 @@ class Splash {
     async checkUpdate() {
         this.setStatus(`Recherche de mise à jour...`);
 
+        try {
+            console.log('[Splash] Checking for updates...');
+            // Skip update check for now and go directly to maintenance check
+            setTimeout(() => {
+                console.log('[Splash] Skipping update check, proceeding to maintenance check...');
+                this.maintenanceCheck();
+            }, 2000); // Show update message for 2 seconds
+            
+        } catch (error) {
+            console.error('[Splash] Update check failed:', error);
+            this.maintenanceCheck();
+        }
+
+        // Original update code (commented out for now)
+        /*
         ipcRenderer.invoke('update-app').then().catch(err => {
             return this.shutdown(`erreur lors de la recherche de mise à jour :<br>${err.message}`);
         });
@@ -79,6 +107,7 @@ class Splash {
             console.error("Mise à jour non disponible");
             this.maintenanceCheck();
         })
+        */
     }
 
     getLatestReleaseForOS(os, preferredFormat, asset) {
@@ -143,13 +172,17 @@ class Splash {
 
 
     async maintenanceCheck() {
-        config.GetConfig().then(res => {
+        try {
+            console.log('[Splash] Checking maintenance status...');
+            let res = await config.GetConfig();
             if (res.maintenance) return this.shutdown(res.maintenance_message);
             this.startLauncher();
-        }).catch(e => {
-            console.error(e);
-            return this.shutdown("Aucune connexion internet détectée,<br>veuillez réessayer ultérieurement.");
-        })
+        } catch (e) {
+            console.error('[Splash] Maintenance check failed:', e);
+            // Skip maintenance check and start launcher anyway
+            console.log('[Splash] Skipping maintenance check, starting launcher directly...');
+            this.startLauncher();
+        }
     }
 
     startLauncher() {
